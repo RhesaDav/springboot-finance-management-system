@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class ExpenseService {
@@ -65,5 +65,13 @@ public class ExpenseService {
             return new ResponseWrapper<>(true, "Expense deleted successfully", expense);
         }
         return new ResponseWrapper<>(false, "Expense not found", expense);
+    }
+    
+    public ResponseWrapper<Double> getTotalExpense(String period, User user) {
+        Double totalExpense = expenseRepository.getTotalExpenseByUserAndPeriod(user.getId(),period);
+        if (totalExpense != null) {
+            return new ResponseWrapper<>(true, "Total expense exceeded", totalExpense);
+        }
+        return new ResponseWrapper<>(false, "Total expense not found", totalExpense);
     }
 }

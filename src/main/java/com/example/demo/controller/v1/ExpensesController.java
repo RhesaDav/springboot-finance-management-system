@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.v1;
 
 import com.example.demo.dto.ExpenseUpdateDTO;
 import com.example.demo.dto.ResponseWrapper;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/expense")
+@RequestMapping("/api/v1/expense")
 public class ExpensesController {
     @Autowired
     private ExpenseService expenseService;

@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.v1;
 
 import com.example.demo.dto.UserUpdateDTO;
 import com.example.demo.entity.User;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/user")
 @Validated
 public class UserController {
     @Autowired
