@@ -24,8 +24,7 @@ public class User {
     @NotBlank(message = "username is required")
     @Size(min = 6, max = 20, message = "username min 6 and nax 20")
     private String username;
-
-    @NotBlank(message = "name is required")
+    
     private String name;
 
     @NotBlank(message = "email is required")
@@ -44,4 +43,14 @@ public class User {
 
     @UpdateTimestamp
     private ZonedDateTime updatedAt;
+    
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = ZonedDateTime.now();
+    }
+    
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = ZonedDateTime.now();
+    }
 }

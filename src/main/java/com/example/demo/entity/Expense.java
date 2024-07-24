@@ -44,4 +44,13 @@ public class Expense {
     @UpdateTimestamp
     private ZonedDateTime updatedAt;
     
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = ZonedDateTime.now();
+    }
+    
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = ZonedDateTime.now();
+    }
 }
