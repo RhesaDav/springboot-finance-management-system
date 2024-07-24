@@ -6,9 +6,6 @@ import com.example.demo.entity.Expense;
 import com.example.demo.entity.User;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.ExpenseRepository;
-import com.example.demo.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +14,8 @@ import java.util.List;
 
 @Service
 public class ExpenseService {
-	private static final Logger log = LoggerFactory.getLogger(ExpenseService.class);
 	@Autowired
 	private ExpenseRepository expenseRepository;
-	
-	@Autowired
-	private UserRepository userRepository;
 	
 	public ResponseWrapper<Expense> createExpense(Expense expense, User user) {
 		if (expense.getDate() == null) {
@@ -72,6 +65,6 @@ public class ExpenseService {
 		if (totalExpense != null) {
 			return new ResponseWrapper<>(true, "Total expense exceeded", totalExpense);
 		}
-		return new ResponseWrapper<>(false, "Total expense not found", totalExpense);
+		return new ResponseWrapper<>(false, "Total expense not found", null);
 	}
 }
