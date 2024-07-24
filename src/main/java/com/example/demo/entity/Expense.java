@@ -19,38 +19,38 @@ import java.util.Date;
 @Getter
 @Setter
 public class Expense {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotBlank(message = "Description is required")
-    private String description;
-
-    @PastOrPresent(message = "Date must be in the past or present")
-    private Date date;
-
-    @NotNull(message = "amount is required")
-    @Min(value = 1, message = "amount minimal 1")
-    private double amount;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    private User user;
-
-    @CreationTimestamp
-    private ZonedDateTime createdAt;
-
-    @UpdateTimestamp
-    private ZonedDateTime updatedAt;
-    
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = ZonedDateTime.now();
-    }
-    
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = ZonedDateTime.now();
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@NotBlank(message = "Description is required")
+	private String description;
+	
+	@PastOrPresent(message = "Date must be in the past or present")
+	private Date date;
+	
+	@NotNull(message = "amount is required")
+	@Min(value = 1, message = "amount minimal 1")
+	private double amount;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	@JsonIgnore
+	private User user;
+	
+	@CreationTimestamp
+	private ZonedDateTime createdAt;
+	
+	@UpdateTimestamp
+	private ZonedDateTime updatedAt;
+	
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = ZonedDateTime.now();
+	}
+	
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = ZonedDateTime.now();
+	}
 }

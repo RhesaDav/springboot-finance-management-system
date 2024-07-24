@@ -23,7 +23,7 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-				.authorizeHttpRequests(authorizeRequest->
+				.authorizeHttpRequests(authorizeRequest ->
 						authorizeRequest
 								.requestMatchers("/api/v1/user/**").authenticated()
 								.requestMatchers("/api/v1/expense/**").authenticated()
