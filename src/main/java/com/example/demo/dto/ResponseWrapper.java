@@ -1,8 +1,14 @@
 package com.example.demo.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
 public class ResponseWrapper<T> {
 	private Boolean success;
+	@Getter
 	private String message;
+	@Getter
 	private T data;
 	
 	public ResponseWrapper(Boolean success, String message, T data) {
@@ -15,23 +21,4 @@ public class ResponseWrapper<T> {
 		return success;
 	}
 	
-	public void setSuccess(Boolean success) {
-		this.success = success;
-	}
-	
-	public String getMessage() {
-		return message;
-	}
-	
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
-	public T getData() {
-		return data;
-	}
-	
-	public void setData(T data) {
-		this.data = data;
-	}
 }
