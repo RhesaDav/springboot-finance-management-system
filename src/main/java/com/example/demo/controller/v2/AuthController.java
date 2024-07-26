@@ -5,10 +5,7 @@ import com.example.demo.dto.AuthResponseDTO;
 import com.example.demo.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v2/auth")
@@ -16,9 +13,12 @@ public class AuthController {
 	@Autowired
 	private AuthService authService;
 	
-	@PostMapping("/login")
-	public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO request) {
-		return ResponseEntity.ok(authService.login(request));
+	@PostMapping("/login/{deviceType}")
+	public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO request, @PathVariable String deviceType) {
+		if (!"web".equalsIgnoreCase(deviceType) && !"mobile".equalsIgnoreCase(deviceType)) {
+			throw new RuntimeException("Invalid device type");
+		}
+		return ResponseEntity.ok(authService.login(request, deviceType));
 	}
 	
 	@PostMapping("/register")

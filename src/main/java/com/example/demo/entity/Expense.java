@@ -10,9 +10,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "expenses")
@@ -20,8 +22,10 @@ import java.util.Date;
 @Setter
 public class Expense {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue
+	@UuidGenerator
+	@Column(name = "id", updatable = false, nullable = false)
+	private UUID id;
 	
 	@NotBlank(message = "Description is required")
 	private String description;

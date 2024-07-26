@@ -22,7 +22,7 @@ public class ExpensesController {
 	private UserService userService;
 	
 	@PostMapping
-	public ResponseEntity<ResponseWrapper<Expense>> createExpense(@RequestBody Expense expense, @RequestParam Long userId) {
+	public ResponseEntity<ResponseWrapper<Expense>> createExpense(@RequestBody Expense expense, @RequestParam String userId) {
 		User user = userService.getUserById(userId);
 		if (user != null) {
 			return ResponseEntity.ok(expenseService.createExpense(expense, user));
@@ -31,7 +31,7 @@ public class ExpensesController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<ResponseWrapper<List<Expense>>> getExpenses(@RequestParam Long userId) {
+	public ResponseEntity<ResponseWrapper<List<Expense>>> getExpenses(@RequestParam String userId) {
 		User user = userService.getUserById(userId);
 		if (user != null) {
 			return ResponseEntity.ok(expenseService.getExpenseByUser(user));
@@ -40,7 +40,7 @@ public class ExpensesController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseWrapper<Expense>> getExpense(@PathVariable Long id, @RequestParam Long userId) {
+	public ResponseEntity<ResponseWrapper<Expense>> getExpense(@PathVariable String id, @RequestParam String userId) {
 		User user = userService.getUserById(userId);
 		if (user != null) {
 			return ResponseEntity.ok(expenseService.getExpenseById(id, user));
@@ -49,7 +49,7 @@ public class ExpensesController {
 	}
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<ResponseWrapper<Expense>> updateExpense(@PathVariable Long id, @RequestBody ExpenseUpdateDTO expense, @RequestParam Long userId) {
+	public ResponseEntity<ResponseWrapper<Expense>> updateExpense(@PathVariable String id, @RequestBody ExpenseUpdateDTO expense, @RequestParam String userId) {
 		User user = userService.getUserById(userId);
 		if (user != null) {
 			ResponseWrapper<Expense> response = expenseService.updateExpense(id, expense, user);
@@ -63,7 +63,7 @@ public class ExpensesController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ResponseWrapper<Expense>> deleteExpense(@PathVariable Long id, @RequestParam Long userId) {
+	public ResponseEntity<ResponseWrapper<Expense>> deleteExpense(@PathVariable String id, @RequestParam String userId) {
 		User user = userService.getUserById(userId);
 		if (user != null) {
 			ResponseWrapper<Expense> response = expenseService.deleteExpense(id, user);

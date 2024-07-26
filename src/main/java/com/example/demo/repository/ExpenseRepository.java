@@ -7,10 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface ExpenseRepository extends JpaRepository<Expense, Long> {
+public interface ExpenseRepository extends JpaRepository<Expense, String> {
 	List<Expense> findByUser(User user);
 	
 	@Query(value = "SELECT SUM(amount) FROM expenses WHERE user_id = :userId AND DATE_TRUNC(CASE WHEN :period = 'day' THEN 'day' WHEN :period = 'week' THEN 'week' WHEN :period = 'month' THEN 'month' ELSE 'day' END, date) = DATE_TRUNC(CASE WHEN :period = 'day' THEN 'day' WHEN :period = 'week' THEN 'week' WHEN :period = 'month' THEN 'month' ELSE 'day' END, CURRENT_DATE)", nativeQuery = true)
-	Double getTotalExpenseByUserAndPeriod(@Param("userId") Long userId, @Param("period") String period);
+	Double getTotalExpenseByUserAndPeriod(@Param("userId") UUID userId, @Param("period") String period);
 }

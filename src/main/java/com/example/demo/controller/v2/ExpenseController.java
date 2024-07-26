@@ -21,7 +21,7 @@ public class ExpenseController {
 	private UserService userService;
 	
 	@GetMapping("/total")
-	public ResponseEntity<ResponseWrapper<Double>> getTotalExpense(@RequestParam Long userId, @RequestParam String period) {
+	public ResponseEntity<ResponseWrapper<Double>> getTotalExpense(@RequestParam String userId, @RequestParam String period) {
 		User user = userService.getUserById(userId);
 		if (user != null) {
 			return ResponseEntity.ok(expenseService.getTotalExpense(period, user));

@@ -25,11 +25,8 @@ public class SecurityConfig {
 		http
 				.authorizeHttpRequests(authorizeRequest ->
 						authorizeRequest
-								.requestMatchers("/api/v1/user/**").authenticated()
-								.requestMatchers("/api/v1/expense/**").authenticated()
-								.requestMatchers("/api/v2/expense/**").authenticated()
 								.requestMatchers("/api/v2/auth/**").permitAll()
-								.anyRequest().denyAll()
+								.anyRequest().authenticated()
 				).csrf(AbstractHttpConfigurer::disable);
 		
 		http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

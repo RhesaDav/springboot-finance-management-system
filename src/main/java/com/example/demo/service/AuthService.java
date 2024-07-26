@@ -20,12 +20,14 @@ public class AuthService {
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 	
-	public AuthResponseDTO login(AuthRequestDTO request) {
+	public AuthResponseDTO login(AuthRequestDTO request, String deviceType) {
 		User user = userRepository.findByUsername(request.getUsername());
 		if (user != null && passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-			String token = jwtTokenProvider.createToken(user.getUsername());
+			String accessToken = jwtTokenProvider.createToken(user.getUsername(), deviceType, false);
+			String refreshToken = jwtTokenProvider.createToken(user.getUsername(), deviceType, true);
 			AuthResponseDTO response = new AuthResponseDTO();
-			response.setToken(token);
+			response.setAccessToken(accessToken);
+			response.setRefreshToken(refreshToken);
 			return response;
 		}
 		throw new RuntimeException("Invalid username or password");

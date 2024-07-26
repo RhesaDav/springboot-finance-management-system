@@ -31,7 +31,7 @@ public class ExpenseService {
 		return new ResponseWrapper<>(true, "Expenses retrieved successfully", expenses);
 	}
 	
-	public ResponseWrapper<Expense> getExpenseById(Long id, User user) {
+	public ResponseWrapper<Expense> getExpenseById(String id, User user) {
 		Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
 		if (expense != null && expense.getUser().getId().equals(user.getId())) {
 			return new ResponseWrapper<>(true, "Expense retrieved successfully", expense);
@@ -39,7 +39,7 @@ public class ExpenseService {
 		return new ResponseWrapper<>(false, "Expense not found", expense);
 	}
 	
-	public ResponseWrapper<Expense> updateExpense(Long Id, ExpenseUpdateDTO updateExpense, User user) {
+	public ResponseWrapper<Expense> updateExpense(String Id, ExpenseUpdateDTO updateExpense, User user) {
 		Expense existingExpense = expenseRepository.findById(Id).orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
 		if (existingExpense.getUser().getId().equals(user.getId())) {
 			existingExpense.setDescription(updateExpense.getDescription());
@@ -51,7 +51,7 @@ public class ExpenseService {
 		return new ResponseWrapper<>(false, "Expense not found", existingExpense);
 	}
 	
-	public ResponseWrapper<Expense> deleteExpense(Long id, User user) {
+	public ResponseWrapper<Expense> deleteExpense(String id, User user) {
 		Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense not found"));
 		if (expense != null && expense.getUser().getId().equals(user.getId())) {
 			expenseRepository.delete(expense);

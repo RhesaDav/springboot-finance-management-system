@@ -49,7 +49,7 @@ public class UserController {
 	}
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO user) {
+	public ResponseEntity<Map<String, Object>> updateUser(@PathVariable String id, @Valid @RequestBody UserUpdateDTO user) {
 		try {
 			User updatedUser = userService.updateUser(id, user);
 			Map<String, Object> response = new HashMap<>();
@@ -68,7 +68,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+	public ResponseEntity<?> deleteUser(@PathVariable String id) {
 		try {
 			userService.deleteUser(id);
 			Map<String, Object> response = new HashMap<>();

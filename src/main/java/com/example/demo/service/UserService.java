@@ -20,7 +20,7 @@ public class UserService {
 		return userRepository.findAll();
 	}
 	
-	public User getUserById(Long id) {
+	public User getUserById(String id) {
 		return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 	}
 	
@@ -36,7 +36,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public User updateUser(Long id, UserUpdateDTO userDetails) {
+	public User updateUser(String id, UserUpdateDTO userDetails) {
 		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + id));
 		
 		if (user.getUsername() != null && user.getUsername().equals(userDetails.getUsername()) && userRepository.existsByUsername(user.getUsername())) {
@@ -64,7 +64,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public void deleteUser(Long id) {
+	public void deleteUser(String id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + id));
 		userRepository.delete(user);
 	}

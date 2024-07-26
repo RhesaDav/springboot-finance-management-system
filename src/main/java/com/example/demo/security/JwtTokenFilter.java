@@ -34,7 +34,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
 			token = authHeader.substring(7);
 			try {
-				username = jwtTokenProvider.getUsername(token);
+				username = jwtTokenProvider.getUsername(token, false);
 			} catch (Exception e) {
 				logger.error("Error while trying to extract username from JWT token: " + e.getMessage());
 			}
@@ -42,7 +42,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-			if (jwtTokenProvider.validateToken(token)) {
+			if (jwtTokenProvider.validateToken(token, false)) {
 				var authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(authenticationToken);

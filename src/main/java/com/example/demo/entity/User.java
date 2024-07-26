@@ -8,9 +8,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity()
 @Table(name = "users")
@@ -18,8 +20,10 @@ import java.util.List;
 @Setter
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue
+	@UuidGenerator
+	@Column(name = "id", updatable = false, nullable = false)
+	private UUID id;
 	
 	@NotBlank(message = "username is required")
 	@Size(min = 6, max = 20, message = "username min 6 and nax 20")
