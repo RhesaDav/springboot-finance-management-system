@@ -5,6 +5,11 @@ import com.example.demo.entity.User;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.exception.UserAlreadyExistException;
 import com.example.demo.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,11 +24,15 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/user")
 @Validated
+@Tag(name = "User Controller", description = "APIs related to User Entity")
 public class UserController {
+	
 	@Autowired
 	private UserService userService;
 	
 	@GetMapping
+	@Operation(summary = "Get all users", description = "Retrieves all users in the system")
+	@ApiResponse(responseCode = "200", description = "Users retrieved successfully")
 	public ResponseEntity<Map<String, Object>> getUsers() {
 		List<User> users = userService.getAllUsers();
 		Map<String, Object> response = new HashMap<>();
@@ -34,7 +43,13 @@ public class UserController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<Map<String, Object>> addUser(@Valid @RequestBody User user) {
+	@Operation(summary = "Create a new user", description = "Creates a new user in the system")
+	@ApiResponses({
+			@ApiResponse(responseCode = "201", description = "User created successfully"),
+			@ApiResponse(responseCode = "500", description = "Internal server error")
+	})
+	public ResponseEntity<Map<String, Object>> addUser(
+			@Valid @Parameter(description = "User to be created") @RequestBody User user) {
 		try {
 			User createdUser = userService.createUser(user);
 			Map<String, Object> response = new HashMap<>();
@@ -49,7 +64,15 @@ public class UserController {
 	}
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> updateUser(@PathVariable String id, @Valid @RequestBody UserUpdateDTO user) {
+	@Operation(summary = "Update a user", description = "Updates an existing user in the system")
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", description = "User updated successfully"),
+			@ApiResponse(responseCode = "400", description = "Bad request"),
+			@ApiResponse(responseCode = "409", description = "Conflict occurred while updating")
+	})
+	public ResponseEntity<Map<String, Object>> updateUser(
+			@PathVariable @Parameter(description = "User ID") String id,
+			@Valid @RequestBody @Parameter(description = "User update data") UserUpdateDTO user) {
 		try {
 			User updatedUser = userService.updateUser(id, user);
 			Map<String, Object> response = new HashMap<>();
@@ -68,7 +91,13 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteUser(@PathVariable String id) {
+	@Operation(summary = "Delete a user", description = "Deletes a specific user from the system")
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", description = "User deleted successfully"),
+			@ApiResponse(responseCode = "400", description = "Bad request")
+	})
+	public ResponseEntity<Map<String, Object>> deleteUser(
+			@PathVariable @Parameter(description = "User ID") String id) {
 		try {
 			userService.deleteUser(id);
 			Map<String, Object> response = new HashMap<>();

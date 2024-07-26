@@ -44,4 +44,16 @@ public class AuthService {
 		user.setEmail(request.getEmail());
 		userRepository.save(user);
 	}
+	
+	public AuthResponseDTO refresh(String refreshToken, String deviceType) {
+		if (jwtTokenProvider.validateToken(refreshToken, true)) {
+			String username = jwtTokenProvider.getUsername(refreshToken, true);
+			String newAccessToken = jwtTokenProvider.createToken(username, deviceType, false);
+			AuthResponseDTO response = new AuthResponseDTO();
+			response.setAccessToken(newAccessToken);
+			response.setRefreshToken(refreshToken);
+			return response;
+		}
+		throw new RuntimeException("Invalid refresh token");
+	}
 }
